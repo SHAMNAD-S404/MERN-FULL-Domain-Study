@@ -15,7 +15,7 @@
 
   //? Question: Add an object {id: 1} to a WeakSet. Then, after deleting the reference to the object, check if the WeakSet still contains the object.
 
-  const obj3 = {id:1010}
+  let obj3 = {id:1010}
 
   const weakset = new WeakSet()
 
@@ -23,7 +23,7 @@
 
   console.log(weakset.has(obj3));
 
-  obj3 = null
+   obj3 = null
 
   console.log(weakset.has(obj3))
   
