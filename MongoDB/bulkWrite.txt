@@ -1,0 +1,29 @@
+use schoolDB; // Change to your actual database
+
+// Execute the bulk write operations
+db.students.bulkWrite([
+  {
+    insertOne: {
+      document: { name: "Alice", courseIds: [1, 2] }
+    }
+  },
+  {
+    insertOne: {
+      document: { name: "Bob", courseIds: [] }
+    }
+  },
+  {
+    updateOne: {
+      filter: { name: "Charlie" },
+      update: { $set: { courseIds: [2] } }
+    }
+  },
+  {
+    deleteOne: {
+      filter: { name: "Eve" }
+    }
+  }
+]);
+
+// Verify the result by checking the students collection
+db.students.find().pretty();
