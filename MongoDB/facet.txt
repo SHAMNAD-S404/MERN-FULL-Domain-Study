@@ -1,0 +1,13 @@
+db.products.aggregate([
+  {
+    $facet: {
+      totalProducts: [ { $count: "total" } ],
+      avgPrice: [ { $group: { _id: null, avgPrice: { $avg: "$price" } } } ],
+      topSelling: [
+        { $sort: { sold: -1 } },
+        { $limit: 3 },
+        { $project: { name: 1, sold: 1, _id: 0 } }
+      ]
+    }
+  }
+]).pretty();
