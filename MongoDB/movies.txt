@@ -1,0 +1,49 @@
+Company> db.movies.find().limit(3)
+[
+  {
+    _id: ObjectId('6715d4e06781cf4cb45e73a3'),
+    title: 'Movie A',
+    year: 2010,
+    director: 'D1',
+    actors: [ 'A1', 'A2' ]
+  },
+  {
+    _id: ObjectId('6715d4e06781cf4cb45e73a4'),
+    title: 'Movie B',
+    year: 2010,
+    director: 'D1',
+    actors: [ 'A1', 'A5', 'A6' ]
+  },
+  {
+    _id: ObjectId('6715d4e06781cf4cb45e73a5'),
+    title: 'Movie C',
+    year: 2010,
+    director: 'D2',
+    actors: [ 'A4' ]
+  }
+]
+
+*****************************************************************************
+//? Query to Group Actors and Count Their Movies
+--------------------------------------------------
+
+Company> db.movies.aggregate([ { $unwind: "$actors" }, { $group: { _id: "$actors", movieCount: { $sum: 1 } } },
+... {$sort:{movieCount:-1}}
+... ])
+[
+  { _id: 'A1', movieCount: 2 },
+  { _id: 'A7', movieCount: 2 },
+  { _id: 'A4', movieCount: 1 },
+  { _id: 'A6', movieCount: 1 },
+  { _id: 'A2', movieCount: 1 },
+  { _id: 'A5', movieCount: 1 }
+]
+-----------------------------------------------------------
+
+//? distinct
+
+Company> db.movies.distinct("director")
+[ 'D1', 'D2', 'D3' ]
+Company> 
+-------------------------------------------------------------
+
