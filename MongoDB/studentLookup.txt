@@ -1,0 +1,150 @@
+
+
+// here that is used for 
+
+School> db.students.aggregate([ {$lookup:{ from:"courses", localField:"courseIds",
+    ... foreignField:"_id",
+    ... as:"SelectedCourses",
+    ... pipeline:[
+    ... {$project:{
+    ... _id:0,
+    ... title:1}
+    ... }]
+    ... }}
+    ... ])
+    [
+      {
+        _id: 1,
+        name: 'Alice',
+        age: 21,
+        courseIds: [ 1, 2 ],
+        SelectedCourses: [ { title: 'Mathematics' }, { title: 'Physics' } ]
+      },
+      {
+        _id: 2,
+        name: 'Bob',
+        age: 22,
+        courseIds: [ 2, 3 ],
+        SelectedCourses: [ { title: 'Physics' }, { title: 'Chemistry' } ]
+      },
+      {
+        _id: 3,
+        name: 'Charlie',
+        age: 23,
+        courseIds: [ 1, 3 ],
+        SelectedCourses: [ { title: 'Mathematics' }, { title: 'Chemistry' } ]
+      },
+      {
+        _id: 4,
+        name: 'David',
+        age: 20,
+        courseIds: [ 4 ],
+        SelectedCourses: [ { title: 'Biology' } ]
+      },
+      {
+        _id: 5,
+        name: 'Eve',
+        age: 21,
+        courseIds: [ 1, 4 ],
+        SelectedCourses: [ { title: 'Mathematics' }, { title: 'Biology' } ]
+      },
+
+    ]
+
+
+    ----------------------------------------------------------------------------
+
+    To find the total number of students enrolled in each course using an aggregation pipeline in MongoDB, you can follow these steps:
+
+Unwind the courseIds array in the students collection to get a separate document for each course each student is enrolled in.
+Group the results by the course ID and count the number of occurrences for each course.
+Join with the courses collection to get the course title corresponding to each course ID.
+
+-----------------------------------------------------------------------------------------
+
+db.students.aggregate([
+  {
+    $unwind: "$courseIds"  // Create a separate document for each courseId in the courseIds array
+  },
+  {
+    $group: {
+      _id: "$courseIds",          // Group by courseIds
+      studentCount: { $sum: 1 }   // Count the number of students for each course
+    }
+  },
+  {
+    $lookup: {
+      from: "courses",            // The collection to join
+      localField: "_id",          // The field from the students aggregation result
+      foreignField: "_id",        // The field from the courses collection
+      as: "courseDetails"         // The name of the new field to add
+    }
+  },
+  {
+    $unwind: "$courseDetails"     // Unwind the courseDetails to access the title
+  },
+  {
+    $project: {
+      _id: 0,                       // Exclude the default _id field
+      courseTitle: "$courseDetails.title",  // Include course title
+      studentCount: 1               // Include the student count
+    }
+  }
+])
+
+    
+
+    ***********************************************************************************
+    List All Students and Their Enrolled Course Titles:
+
+Use a $lookup to join the students collection with the courses collection and return each student's name along with the titles of the courses they are enrolled in.
+
+
+method 1
+------------------
+
+db.students.aggregate([
+  {
+    $lookup: {
+      from: "courses",            // The collection to join
+      localField: "courseIds",    // The field from the students collection
+      foreignField: "_id",        // The field from the courses collection
+      as: "enrolledCourses"       // The name of the new field to add
+    }
+  },
+  {
+    $unwind: {
+      path: "$enrolledCourses",   // Unwind the enrolledCourses array
+      preserveNullAndEmptyArrays: true // Keep students without courses in the result
+    }
+  },
+  {
+    $project: {
+      _id: 0,                           // Exclude the default _id field
+      studentName: "$name",            // Include the student's name
+      courseTitle: "$enrolledCourses.title" // Include the course title
+    }
+  }
+])
+
+
+********************************************
+method 2
+----------------------------------
+
+db.students.aggregate([
+  {
+    $lookup: {
+      from: "courses",            
+      localField: "courseIds",    
+      foreignField: "_id",        
+      as: "enrolledCourses"       
+      pipeline:[
+        {$project:{
+          _id:0,
+          tittle:1
+        }}
+      ]
+    }
+  }
+])
