@@ -1,0 +1,29 @@
+db.employees.renameCollection("staff")
+
+db.<oldCollectionName>.renameCollection("<newCollectionName>")
+
+
+
+db.employees.updateMany(
+  { EmpFname: { $exists: true } },     // Filter: apply to all documents with 'EmpFname' field
+  { $rename: { "EmpFname": "FirstName" } }  // Rename: change 'EmpFname' to 'FirstName'
+)
+
+
+
+
+how to drop a collection
+--------------------------
+
+db.<collectionName>.drop()
+db.employees.drop()
+
+
+how to drop a database
+--------------------------
+
+
+use <databaseName>        // Switch to the database
+db.dropDatabase()         // Drop the current database
+
+
