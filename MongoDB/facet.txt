@@ -1,3 +1,5 @@
+//using this face set we can do multiple aggregatin in the pipeline
+
 db.products.aggregate([
   {
     $facet: {
