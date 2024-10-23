@@ -3,15 +3,15 @@
 // here some sample document from the student docs, and performing the lookup function
 
 School> db.students.aggregate([ {$lookup:{ from:"courses", localField:"courseIds",
-    ... foreignField:"_id",
-    ... as:"SelectedCourses",
-    ... pipeline:[
-    ... {$project:{
-    ... _id:0,
-    ... title:1}
-    ... }]
-    ... }}
-    ... ])
+     foreignField:"_id",
+     as:"SelectedCourses",
+     pipeline:[
+     {$project:{
+     _id:0,
+     title:1}
+     }]
+     }}
+     ])
     [
       {
         _id: 1,
