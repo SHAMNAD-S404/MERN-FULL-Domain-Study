@@ -1,4 +1,5 @@
-//? Find Maximum Number in an Array
+//? Find Maximum Number in an Array 
+//exmaple for apply
 
 const numbers = [4,6,6,1,7,8,9,6,2,1,4]
 
