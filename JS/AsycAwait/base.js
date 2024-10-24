@@ -1,4 +1,4 @@
-
+//basic promise method
  const fetchData = async () => {
 
     let promise = new Promise(async(resolve,reject) =>  {
