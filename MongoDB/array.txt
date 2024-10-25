@@ -1,0 +1,18 @@
+{
+   "_id": 1,
+   "name": "John",
+   "subjects": ["Math", "English", "Physics", "Chemistry"]
+}
+
+
+db.students.updateOne(
+   { _id: 1 },
+   { $pull: { subjects: "Physics" } }
+);
+
+
+db.students.updateOne(
+   { _id: 2 },
+   { $pull: { scores: { $gt: 70 } } }
+);
+

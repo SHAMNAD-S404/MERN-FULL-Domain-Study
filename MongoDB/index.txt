@@ -1,0 +1,42 @@
+
+
+db.collection.createIndex( { <field1>: <type>, <field2>: <type>, ... } )
+
+<field1>, <field2>, etc., are the names of the fields on which you want to create the index.
+<type> specifies the index type:
+1 for ascending order.
+-1 for descending order.
+
+=============================================================================
+
+single index
+
+db.employees.createIndex( { name: 1 } )
+
+===============================================================================
+
+compound index
+
+db.employees.createIndex( { name: 1, age: 1 } )
+ ===============================================================================
+
+ text index
+
+ db.products.createIndex( { description: "text" } )
+
+================================================================================
+uniq index
+
+db.users.createIndex( { email: 1 }, { unique: true } )
+======================================================================
+
+list all index
+
+
+db.collection.getIndexes()
+
+======================================================================
+
+db.employees.dropIndex( { name: 1 } )
+
+

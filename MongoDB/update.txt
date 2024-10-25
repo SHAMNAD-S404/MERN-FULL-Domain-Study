@@ -1,0 +1,42 @@
+School> db.products.updateOne({_id:1},
+... [
+... {$set:{$multiply:["$price",1.1] }} ] )
+MongoServerError: Invalid $set :: caused by :: FieldPath field names may not start with '$'. Consider using $getField or $setField.
+School> db.products.updateOne({ _id: 1 }, [ { $set:{price: { $multiply: ["$price", 1.1] }} }])
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+School> db.products.findOne({_id:1})
+{
+  _id: 1,
+  name: 'Laptop',
+  category: 'Electronics',
+  price: 1100,
+  rating: 4.5,
+  stock: 50,
+  sold: 120
+}
+School> db.products.updateOne({ _id: 1 }, [ { $set:{price: { $multiply: ["$price", 0.9] }} }])
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+School> db.products.findOne({_id:1})
+{
+  _id: 1,
+  name: 'Laptop',
+  category: 'Electronics',
+  price: 990,
+  rating: 4.5,
+  stock: 50,
+  sold: 120
+}
+School> 
+
