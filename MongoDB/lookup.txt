@@ -1,3 +1,5 @@
+// here is some ways to do lookup
+
 Company> db.orders.find()
 [
   { _id: 1, item: 'almonds', price: 12, quantity: 2 },

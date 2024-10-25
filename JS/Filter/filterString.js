@@ -1,4 +1,4 @@
-
+// fileter a array and return string array
 
 
 const mixedArray = [42, "apple", true, { name: "John", age: 30 }, [1, 2, 3], null, undefined, "banana", false, 100];

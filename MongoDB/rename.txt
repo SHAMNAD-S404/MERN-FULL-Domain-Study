@@ -1,3 +1,5 @@
+// here its showing how we can rename the field
+
 db.employees.renameCollection("staff")
 
 db.<oldCollectionName>.renameCollection("<newCollectionName>")
